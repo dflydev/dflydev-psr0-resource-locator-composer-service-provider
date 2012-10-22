@@ -53,6 +53,8 @@ Configuration
 
  * **psr0_resource_locator_composer**:
    Composer PSR-0 Resource Locator, instance `Dflydev\Psr0ResourceLocator\Composer\ComposerResourceLocator`.
+ * **psr0_resource_locator_composer.class_loader_locator**:
+   Composer Class Loader Loactor, instance `Dflydev\Composer\Autoload\ClassLoaderLocator`.
 
 
 License
