@@ -38,8 +38,12 @@ class ComposerResourceLocatorServiceProvider implements ServiceProviderInterface
             $app['psr0_resource_locator.implementation'] = 'psr0_resource_locator_composer';
         }
 
+        if (empty($app['psr0_resource_locator_composer.class_loader_locator'])) {
+            $app['psr0_resource_locator_composer.class_loader_locator'] = null;
+        }
+
         $app['psr0_resource_locator_composer'] = $app->share(function($app) {
-            return new ComposerResourceLocator;
+            return new ComposerResourceLocator($app['psr0_resource_locator_composer.class_loader_locator']);
         });
     }
 }

@@ -53,4 +53,33 @@ class ComposerResourceLocatorServiceProviderTest extends \PHPUnit_Framework_Test
 
         $this->assertEquals('some other service', $app['psr0_resource_locator']);
     }
+
+    public function testClassLoaderLocatorOverwrite()
+    {
+        $app = new Application;
+
+        $classLoader = $this->getMock('Composer\Autoload\ClassLoader');
+
+        $classLoader
+            ->expects($this->once())
+            ->method('getPrefixes')
+            ->will($this->returnValue(array(
+                'Dflydev\Silex\Provider\Psr0ResourceLocator\Composer' => array(realpath(__DIR__.'/../../../../..')),
+            )));
+
+        $classLoaderLocator = $this->getMock('Dflydev\Composer\Autoload\ClassLoaderLocator');
+
+        $classLoaderLocator
+            ->expects($this->once())
+            ->method('locate')
+            ->will($this->returnValue($classLoader));
+
+        $app['psr0_resource_locator_composer.class_loader_locator'] = $classLoaderLocator;
+
+        $app->register(new Psr0ResourceLocatorServiceProvider);
+        $app->register(new ComposerResourceLocatorServiceProvider);
+
+        $directory = $app['psr0_resource_locator']->findFirstDirectory('Dflydev\Silex\Provider\Psr0ResourceLocator\Composer');
+        $this->assertEquals(__DIR__, $directory);
+    }
 }
