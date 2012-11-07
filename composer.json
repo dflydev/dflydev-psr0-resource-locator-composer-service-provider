@@ -17,9 +17,12 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "dflydev/psr0-resource-locator-composer": "1.*@dev",
-        "dflydev/psr0-resource-locator-service-provider": "1.*@dev",
-        "silex/silex": "1.*@dev"
+        "dflydev/psr0-resource-locator-composer": "1.0.*@dev",
+        "dflydev/psr0-resource-locator-service-provider": "1.0.*@dev",
+        "silex/silex": "1.0.*@dev"
+    },
+    "provide": {
+        "dflydev/psr0-resource-locator-implementation-service-provider": "1.0.0-alpha"
     },
     "autoload": {
         "psr-0": {
