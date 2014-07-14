@@ -2,6 +2,7 @@
 
 namespace Dflydev\Silex\Provider\Psr0ResourceLocator\Composer;
 
+use Dflydev\Composer\Autoload\ClassLoaderReader;
 use Dflydev\Silex\Provider\Psr0ResourceLocator\Psr0ResourceLocatorServiceProvider;
 use Silex\Application;
 
@@ -70,9 +71,16 @@ class ComposerResourceLocatorServiceProviderTest extends \PHPUnit_Framework_Test
         $classLoaderLocator = $this->getMock('Dflydev\Composer\Autoload\ClassLoaderLocator');
 
         $classLoaderLocator
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('locate')
             ->will($this->returnValue($classLoader));
+
+        $classLoaderLocator
+            ->expects($this->once())
+            ->method('getReader')
+            ->will($this->returnValue(
+                new ClassLoaderReader($classLoader)
+            ));
 
         $app['psr0_resource_locator_composer.class_loader_locator'] = $classLoaderLocator;
 
